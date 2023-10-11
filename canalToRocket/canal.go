@@ -11,19 +11,19 @@ func init() {
 	connector := client.NewSimpleCanalConnector("你的Canal服务端地址", 11111, "你的Canal服务端用户名", "你的Canal服务端密码", "你的Canal服务端destination", 60000, 60*60*1000)
 	err := connector.Connect()
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
 	}
 
 	//mysql 数据解析关注的表，Perl正则表达式. 这里过滤你需要获取数据的表
 	err = connector.Subscribe("你的数据库\\.你的表")
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
 	}
 
 	for {
 		message, err := connector.Get(100, nil, nil)
 		if err != nil {
-			panic(err)
+			fmt.Println(err)
 		}
 		messageId := message.Id
 		if messageId == -1 || len(message.Entries) <= 0 {
@@ -49,7 +49,7 @@ func doMessage(entrys []entry.Entry) {
 	//
 	//	err := proto.Unmarshal(entry.GetStoreValue(), rowChange)
 	//	if err != nil {
-	//		panic(err)
+	//		fmt.Println(err)
 	//	}
 	//	if rowChange != nil {
 	//		eventType := rowChange.GetEventType()
